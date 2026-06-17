@@ -8,9 +8,16 @@ import type { Note } from '@/types'
 export const dynamic = 'force-dynamic'
 
 async function getNotes() {
-  return (await db.note.findMany({
-    orderBy: { updatedAt: 'desc' },
-  })) as Note[]
+  try {
+    const notes = await db.note.findMany({
+      orderBy: { updatedAt: 'desc' },
+    });
+    return notes as Note[];
+  } catch (error) {
+    console.error('Error fetching notes:', error);
+    // Return empty array to prevent app crash
+    return [];
+  }
 }
 
 export default async function Home() {

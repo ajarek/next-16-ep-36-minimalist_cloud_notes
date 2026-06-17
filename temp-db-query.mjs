@@ -1,0 +1,1 @@
+import "dotenv/config"; import { db } from "./lib/db"; try { const notes = await db.note.findMany({ orderBy: { updatedAt: "desc" } }); console.log("notes count", notes.length); } catch (error) { console.error("query error", error); process.exit(1); } finally { await db.$disconnect(); }
